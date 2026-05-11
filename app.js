@@ -1,21 +1,50 @@
 /* ══════════════════════════════════════════════════════
    PALLEO SUITEX — app.js
-   Fetch-based API calls (no google.script.run)
+   JSONP-based API (bypasses CORS on GAS)
 ══════════════════════════════════════════════════════ */
 
-var API = 'https://script.google.com/macros/s/AKfycbwhASIz4j5DkCJtOzh0ZAlp7_shMO8BBNJCjmF9o8ne5bEeaSDnYUHzcESH_8CM8ACeEA/exec';
+var API = 'https://script.google.com/macros/s/AKfycbwTe0chJSY72J9C4zr2ficwAam-M0PosXkIr32FIuInZ1cau3EhHSc9BBEF9w1T5g9IRg/exec';
 var _U=null,_V=null,_ST=null,_D={},_sub={},_tt,_TOKEN=null;
+var _cbIdx = 0;
 
-/* ── API helper ── */
+/* ── API helper — JSONP (no CORS issues with GAS) ── */
 function _api(action, data, ok, err) {
-  var body = JSON.stringify({ action: action, data: data||{}, token: _TOKEN });
-  fetch(API, { method:'POST', body: body })
-    .then(function(r){ return r.json(); })
-    .then(function(r){
-      if (r && r.success === false && r.error === 'NOT_AUTHENTICATED') { _signOut(); return; }
-      if (ok) ok(r);
-    })
-    .catch(function(e){ console.warn('[API]',action,e); if(err) err(e); });
+  var cbName = '_gcb' + (++_cbIdx);
+  var timeout;
+
+  window[cbName] = function(r) {
+    clearTimeout(timeout);
+    try { delete window[cbName]; } catch(e) { window[cbName] = undefined; }
+    var el = document.getElementById('_jsonp_' + cbName);
+    if (el) el.parentNode.removeChild(el);
+    if (r && r.success === false && r.error === 'NOT_AUTHENTICATED') { _signOut(); return; }
+    if (ok) ok(r);
+  };
+
+  timeout = setTimeout(function() {
+    try { delete window[cbName]; } catch(e) { window[cbName] = undefined; }
+    var el = document.getElementById('_jsonp_' + cbName);
+    if (el) el.parentNode.removeChild(el);
+    console.warn('[API timeout]', action);
+    if (err) err({ message: 'Request timed out. Check internet connection.' });
+  }, 20000);
+
+  var payload = encodeURIComponent(JSON.stringify({
+    action: action,
+    data:   data || {},
+    token:  _TOKEN || ''
+  }));
+
+  var url = API + '?callback=' + cbName + '&payload=' + payload;
+  var script = document.createElement('script');
+  script.id  = '_jsonp_' + cbName;
+  script.src = url;
+  script.onerror = function() {
+    clearTimeout(timeout);
+    try { delete window[cbName]; } catch(e) {}
+    if (err) err({ message: 'Network error. Check connection.' });
+  };
+  document.head.appendChild(script);
 }
 
 /* ── LOGIN ── */
