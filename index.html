@@ -8,61 +8,139 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Palleo SuiteX">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Palleo SuiteX">
+<meta name="description" content="Palleo International — Factory ERP">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 <title>Palleo SuiteX</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;background:#1B2E4B;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
-#splash{position:fixed;inset:0;background:linear-gradient(160deg,#0F1F35 0%,#1B2E4B 55%,#1e3a5f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:40px 20px}
-.s-icon{width:88px;height:88px;background:rgba(255,255,255,.1);border-radius:26px;display:flex;align-items:center;justify-content:center;font-size:42px;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,.2)}
-.s-title{font-size:26px;font-weight:700;color:#fff;letter-spacing:-.5px;margin-bottom:6px}
-.s-sub{font-size:12px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.14em;margin-bottom:40px}
-.s-loader{width:48px;height:3px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
-.s-loader::after{content:'';display:block;height:100%;width:35%;background:rgba(255,255,255,.7);border-radius:3px;animation:ld 1s ease-in-out infinite alternate}
-@keyframes ld{from{transform:translateX(-100%)}to{transform:translateX(300%)}}
-.s-msg{font-size:12px;color:rgba(255,255,255,.35);margin-top:20px;text-align:center;line-height:1.6}
-#openBtn{display:none;margin-top:24px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);color:#fff;padding:13px 32px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.01em}
-#openBtn:active{background:rgba(255,255,255,.2)}
+html,body{
+  height:100%;
+  background:#1B2E4B;
+  font-family:-apple-system,system-ui,'Segoe UI',sans-serif;
+  overflow:hidden;
+  /* Full screen feel — cover safe areas on notched phones */
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Splash screen */
+#splash{
+  position:fixed;inset:0;
+  background:linear-gradient(160deg,#0F1F35 0%,#1B2E4B 55%,#1e3a5f 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;
+  transition:opacity .4s ease;
+}
+.s-logo-wrap{
+  width:96px;height:96px;
+  background:rgba(255,255,255,.08);
+  border-radius:28px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:22px;
+  box-shadow:0 12px 40px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.s-logo-wrap img{
+  width:72px;height:72px;border-radius:20px;
+}
+.s-title{
+  font-size:26px;font-weight:700;color:#fff;
+  letter-spacing:-.4px;margin-bottom:5px;text-align:center;
+}
+.s-sub{
+  font-size:11px;color:rgba(255,255,255,.38);
+  text-transform:uppercase;letter-spacing:.16em;
+  margin-bottom:48px;text-align:center;
+}
+.s-loader{
+  width:44px;height:3px;
+  background:rgba(255,255,255,.1);
+  border-radius:3px;overflow:hidden;
+}
+.s-loader span{
+  display:block;height:100%;width:38%;
+  background:rgba(255,255,255,.65);
+  border-radius:3px;
+  animation:ld 0.9s ease-in-out infinite alternate;
+}
+@keyframes ld{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(280%)}
+}
+.s-msg{
+  font-size:12px;color:rgba(255,255,255,.3);
+  margin-top:18px;text-align:center;line-height:1.5;
+  min-height:36px;
+}
+#openBtn{
+  display:none;
+  margin-top:20px;
+  background:rgba(255,255,255,.12);
+  border:1.5px solid rgba(255,255,255,.2);
+  color:#fff;
+  padding:13px 36px;
+  border-radius:14px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;
+  letter-spacing:.01em;
+  transition:background .15s;
+}
+#openBtn:active{background:rgba(255,255,255,.22);}
+
+/* Version tag */
+.s-ver{
+  position:absolute;bottom:32px;
+  font-size:11px;color:rgba(255,255,255,.18);
+  letter-spacing:.04em;
+}
 </style>
 </head>
 <body>
+
 <div id="splash">
-  <div class="s-icon">🏭</div>
+  <div class="s-logo-wrap">
+    <img src="icon-192.png" alt="Palleo">
+  </div>
   <div class="s-title">Palleo SuiteX</div>
-  <div class="s-sub">Tread Anywhere · Factory ERP</div>
-  <div class="s-loader" id="loader"></div>
+  <div class="s-sub">Tread Anywhere &nbsp;·&nbsp; Factory ERP</div>
+  <div class="s-loader"><span></span></div>
   <div class="s-msg" id="msg">Opening app...</div>
-  <button id="openBtn" onclick="_open()">Open App</button>
+  <button id="openBtn" onclick="_open()">Open Palleo SuiteX</button>
+  <div class="s-ver">v2.0 · Palleo International</div>
 </div>
+
 <script>
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbykkZNBJQEydkr67fdxHtIbyaqsR7Qm_jZkaDAqcXaPqsOMZjUZ0a2lynIAQ9eurMoIIg/exec';
+var GAS = 'https://script.google.com/macros/s/AKfycbykkZNBJQEydkr67fdxHtIbyaqsR7Qm_jZkaDAqcXaPqsOMZjUZ0a2lynIAQ9eurMoIIg/exec';
 
-// Register service worker
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('sw.js').catch(function(){});
+// Service worker registration — enables PWA install prompt
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js', { scope: './' })
+      .then(function(reg) { console.log('[SW] Registered', reg.scope); })
+      .catch(function(e) { console.log('[SW] Failed', e); });
+  });
 }
 
-// Redirect after splash
-function _open(){
-  window.location.href = GAS_URL;
-}
+function _open() { window.location.href = GAS; }
 
-// Auto redirect after 1.2s
+// Redirect sequence
 setTimeout(function(){
-  document.getElementById('msg').textContent = 'Redirecting to app...';
-}, 400);
+  document.getElementById('msg').textContent = 'Redirecting...';
+}, 500);
 
 setTimeout(function(){
-  window.location.href = GAS_URL;
-}, 1200);
+  window.location.href = GAS;
+}, 1400);
 
-// Fallback: show button if redirect takes too long
+// Fallback button after 5s (slow connection)
 setTimeout(function(){
-  document.getElementById('loader').style.display = 'none';
-  document.getElementById('msg').textContent = 'Tap below if app did not open';
+  var loader = document.querySelector('.s-loader');
+  if (loader) loader.style.display = 'none';
+  document.getElementById('msg').textContent = 'App nahi khula? Neeche tap karo';
   document.getElementById('openBtn').style.display = 'block';
-}, 4000);
+}, 5000);
 </script>
 </body>
 </html>
