@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1B2E4B">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -13,44 +13,55 @@
 <title>Palleo SuiteX</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;overflow:hidden;background:#1B2E4B;font-family:system-ui,sans-serif}
-#splash{position:fixed;inset:0;background:linear-gradient(160deg,#0F1F35,#1B2E4B,#1e3a5f);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:10}
-.splash-icon{width:80px;height:80px;background:rgba(255,255,255,.1);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:40px}
-.splash-title{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px}
-.splash-sub{font-size:13px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em}
-.splash-loader{width:40px;height:3px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:24px;overflow:hidden}
-.splash-loader::after{content:'';display:block;height:100%;width:40%;background:#fff;border-radius:3px;animation:ld 1s ease-in-out infinite alternate}
+html,body{height:100%;background:#1B2E4B;font-family:system-ui,-apple-system,sans-serif;overflow:hidden}
+#splash{position:fixed;inset:0;background:linear-gradient(160deg,#0F1F35 0%,#1B2E4B 55%,#1e3a5f 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:40px 20px}
+.s-icon{width:88px;height:88px;background:rgba(255,255,255,.1);border-radius:26px;display:flex;align-items:center;justify-content:center;font-size:42px;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.s-title{font-size:26px;font-weight:700;color:#fff;letter-spacing:-.5px;margin-bottom:6px}
+.s-sub{font-size:12px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.14em;margin-bottom:40px}
+.s-loader{width:48px;height:3px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden}
+.s-loader::after{content:'';display:block;height:100%;width:35%;background:rgba(255,255,255,.7);border-radius:3px;animation:ld 1s ease-in-out infinite alternate}
 @keyframes ld{from{transform:translateX(-100%)}to{transform:translateX(300%)}}
-#frame{position:fixed;inset:0;border:none;width:100%;height:100%;display:none}
+.s-msg{font-size:12px;color:rgba(255,255,255,.35);margin-top:20px;text-align:center;line-height:1.6}
+#openBtn{display:none;margin-top:24px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.25);color:#fff;padding:13px 32px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.01em}
+#openBtn:active{background:rgba(255,255,255,.2)}
 </style>
 </head>
 <body>
 <div id="splash">
-  <div class="splash-icon">🏭</div>
-  <div class="splash-title">Palleo SuiteX</div>
-  <div class="splash-sub">Tread Anywhere · Factory ERP</div>
-  <div class="splash-loader"></div>
+  <div class="s-icon">🏭</div>
+  <div class="s-title">Palleo SuiteX</div>
+  <div class="s-sub">Tread Anywhere · Factory ERP</div>
+  <div class="s-loader" id="loader"></div>
+  <div class="s-msg" id="msg">Opening app...</div>
+  <button id="openBtn" onclick="_open()">Open App</button>
 </div>
-<iframe id="frame" src="https://script.google.com/macros/s/AKfycbykkZNBJQEydkr67fdxHtIbyaqsR7Qm_jZkaDAqcXaPqsOMZjUZ0a2lynIAQ9eurMoIIg/exec" allow="*"></iframe>
 <script>
-// Register service worker for offline shell
-if ('serviceWorker' in navigator) {
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbykkZNBJQEydkr67fdxHtIbyaqsR7Qm_jZkaDAqcXaPqsOMZjUZ0a2lynIAQ9eurMoIIg/exec';
+
+// Register service worker
+if('serviceWorker' in navigator){
   navigator.serviceWorker.register('sw.js').catch(function(){});
 }
-// Show app after brief splash
-var frame = document.getElementById('frame');
-frame.onload = function() {
-  setTimeout(function() {
-    document.getElementById('splash').style.opacity = '0';
-    document.getElementById('splash').style.transition = 'opacity .4s';
-    frame.style.display = 'block';
-    setTimeout(function(){ document.getElementById('splash').style.display='none'; }, 400);
-  }, 600);
-};
-// Fallback
+
+// Redirect after splash
+function _open(){
+  window.location.href = GAS_URL;
+}
+
+// Auto redirect after 1.2s
 setTimeout(function(){
-  document.getElementById('splash').style.display='none';
-  frame.style.display='block';
+  document.getElementById('msg').textContent = 'Redirecting to app...';
+}, 400);
+
+setTimeout(function(){
+  window.location.href = GAS_URL;
+}, 1200);
+
+// Fallback: show button if redirect takes too long
+setTimeout(function(){
+  document.getElementById('loader').style.display = 'none';
+  document.getElementById('msg').textContent = 'Tap below if app did not open';
+  document.getElementById('openBtn').style.display = 'block';
 }, 4000);
 </script>
 </body>
