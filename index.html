@@ -8,139 +8,316 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Palleo SuiteX">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="Palleo SuiteX">
-<meta name="description" content="Palleo International — Factory ERP">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
-<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 <title>Palleo SuiteX</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{
-  height:100%;
-  background:#1B2E4B;
-  font-family:-apple-system,system-ui,'Segoe UI',sans-serif;
-  overflow:hidden;
-  /* Full screen feel — cover safe areas on notched phones */
-  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+:root{
+  --P:#1B2E4B;--Pd:#0F1F35;--Pl:rgba(27,46,75,.12);
+  --A:#2563EB;--Al:rgba(37,99,235,.12);
+  --G:#16A34A;--Gl:rgba(22,163,74,.12);
+  --R:#DC2626;--Rl:rgba(220,38,38,.12);
+  --O:#D97706;--Ol:rgba(217,119,6,.12);
+  --T:#0D9488;--Tl:rgba(13,148,136,.12);
+  --V:#7C3AED;--Vl:rgba(124,58,237,.12);
+  --bg:#F1F5F9;--sur:#fff;--sur2:#F8FAFC;
+  --bdr:#E2E8F0;--tx:#0F172A;--tx2:#475569;--tx3:#94A3B8;
+  --r:14px;--rS:10px;--sh:0 1px 4px rgba(0,0,0,.08);--shM:0 8px 24px rgba(0,0,0,.14);
+  --topbar-h:56px;--bnav-h:62px;--sbw:272px;
 }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{margin:0;padding:0;height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;font-size:14px;color:var(--tx);background:var(--bg);overflow:hidden;-webkit-font-smoothing:antialiased}
 
-/* Splash screen */
-#splash{
-  position:fixed;inset:0;
-  background:linear-gradient(160deg,#0F1F35 0%,#1B2E4B 55%,#1e3a5f 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 24px;
-  transition:opacity .4s ease;
-}
-.s-logo-wrap{
-  width:96px;height:96px;
-  background:rgba(255,255,255,.08);
-  border-radius:28px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:22px;
-  box-shadow:0 12px 40px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.1);
-}
-.s-logo-wrap img{
-  width:72px;height:72px;border-radius:20px;
-}
-.s-title{
-  font-size:26px;font-weight:700;color:#fff;
-  letter-spacing:-.4px;margin-bottom:5px;text-align:center;
-}
-.s-sub{
-  font-size:11px;color:rgba(255,255,255,.38);
-  text-transform:uppercase;letter-spacing:.16em;
-  margin-bottom:48px;text-align:center;
-}
-.s-loader{
-  width:44px;height:3px;
-  background:rgba(255,255,255,.1);
-  border-radius:3px;overflow:hidden;
-}
-.s-loader span{
-  display:block;height:100%;width:38%;
-  background:rgba(255,255,255,.65);
-  border-radius:3px;
-  animation:ld 0.9s ease-in-out infinite alternate;
-}
-@keyframes ld{
-  from{transform:translateX(-100%)}
-  to{transform:translateX(280%)}
-}
-.s-msg{
-  font-size:12px;color:rgba(255,255,255,.3);
-  margin-top:18px;text-align:center;line-height:1.5;
-  min-height:36px;
-}
-#openBtn{
-  display:none;
-  margin-top:20px;
-  background:rgba(255,255,255,.12);
-  border:1.5px solid rgba(255,255,255,.2);
-  color:#fff;
-  padding:13px 36px;
-  border-radius:14px;
-  font-size:15px;font-weight:600;
-  cursor:pointer;
-  letter-spacing:.01em;
-  transition:background .15s;
-}
-#openBtn:active{background:rgba(255,255,255,.22);}
+/* LOGIN */
+#sLogin{position:fixed;inset:0;background:linear-gradient(160deg,#0F1F35,#1B2E4B,#1e3a5f);display:flex;flex-direction:column;z-index:1000;overflow-y:auto}
+.login-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,48px) 24px 24px;min-height:220px}
+.login-app-icon{width:84px;height:84px;background:rgba(255,255,255,.1);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 8px 32px rgba(0,0,0,.25);overflow:hidden}
+.login-app-icon img{width:84px;height:84px;border-radius:24px}
+.login-app-name{font-size:26px;font-weight:700;color:#fff;letter-spacing:-.4px;margin-bottom:4px}
+.login-app-sub{font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.14em}
+.login-form-wrap{background:#fff;border-radius:28px 28px 0 0;padding:28px 24px calc(env(safe-area-inset-bottom,0px) + 32px)}
+.login-form-title{font-size:18px;font-weight:700;color:var(--tx);margin-bottom:4px}
+.login-form-sub{font-size:13px;color:var(--tx3);margin-bottom:22px}
+.fld{margin-bottom:16px}
+.fld label{display:block;font-size:11px;font-weight:700;color:var(--tx2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.fld input{width:100%;padding:14px 16px;border:1.5px solid var(--bdr);border-radius:var(--rS);font-size:15px;outline:none;transition:all .2s;background:var(--sur2);color:var(--tx);-webkit-appearance:none}
+.fld input:focus{border-color:var(--A);background:#fff;box-shadow:0 0 0 3px var(--Al)}
+.btn-login{width:100%;padding:15px;background:var(--P);color:#fff;border:none;border-radius:var(--rS);font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;-webkit-appearance:none;transition:background .2s}
+.btn-login:active{background:var(--Pd)}
+.login-err{color:var(--R);font-size:13px;text-align:center;min-height:20px;margin-top:12px;font-weight:500}
 
-/* Version tag */
-.s-ver{
-  position:absolute;bottom:32px;
-  font-size:11px;color:rgba(255,255,255,.18);
-  letter-spacing:.04em;
+/* APP SHELL */
+#sApp{display:none;position:fixed;inset:0}
+#sApp.on{display:block}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:var(--P);color:#fff;display:flex;align-items:center;gap:4px;padding:env(safe-area-inset-top,0px) 8px 0 4px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.tb-menu-btn{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;font-size:18px;color:#fff;flex-shrink:0;transition:background .15s}
+.tb-menu-btn:active{background:rgba(255,255,255,.15)}
+.tb-title-block{flex:1;min-width:0;padding:0 4px}
+.tb-title{font-size:16px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.2}
+.tb-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
+.tb-action-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;color:rgba(255,255,255,.85);font-size:15px;transition:background .15s;flex-shrink:0}
+.tb-action-btn:active{background:rgba(255,255,255,.15)}
+
+/* SIDEBAR */
+#sbOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;backdrop-filter:blur(1px)}
+#sbOv.on{display:block}
+#sb{position:fixed;top:0;left:0;bottom:0;width:var(--sbw);background:var(--P);z-index:201;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden}
+#sb.open{transform:translateX(0)}
+.sb-head{padding:calc(env(safe-area-inset-top,0px) + 44px) 16px 16px;background:rgba(0,0,0,.2);flex-shrink:0}
+.sb-app-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.sb-app-icon{width:44px;height:44px;background:rgba(255,255,255,.12);border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.sb-app-icon img{width:44px;height:44px;border-radius:14px}
+.sb-app-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2}
+.sb-app-ver{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px}
+.sb-div{height:1px;background:rgba(255,255,255,.1);margin:0 0 8px}
+.sb-user-row{display:flex;align-items:center;gap:10px}
+.sb-avatar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+.sb-u-name{font-size:13px;font-weight:600;color:#fff;line-height:1.3}
+.sb-u-role{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.07em}
+.sb-nav{flex:1;overflow-y:auto;padding:8px 0;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.nav-grp-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.1em;padding:16px 20px 4px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:13px 20px;cursor:pointer;color:rgba(255,255,255,.65);font-size:14px;font-weight:500;position:relative;user-select:none;transition:background .15s}
+.nav-item i{width:20px;text-align:center;font-size:15px;flex-shrink:0}
+.nav-item:active{background:rgba(255,255,255,.08)}
+.nav-item.on{color:#fff;background:rgba(255,255,255,.12)}
+.nav-item.on::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;background:#60A5FA;border-radius:0 3px 3px 0}
+.nav-item.on i{color:#60A5FA}
+.sb-foot{border-top:1px solid rgba(255,255,255,.08);padding:8px 0 calc(env(safe-area-inset-bottom,0px)+16px);flex-shrink:0}
+.sb-signout{display:flex;align-items:center;gap:14px;padding:13px 20px;cursor:pointer;color:rgba(255,255,255,.45);font-size:14px;transition:background .15s}
+.sb-signout:active{background:rgba(220,38,38,.15);color:#FCA5A5}
+
+/* CONTENT */
+#content{position:fixed;top:var(--topbar-h);left:0;right:0;bottom:var(--bnav-h);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 14px 8px;background:var(--bg)}
+
+/* BOTTOM NAV */
+#bnav{position:fixed;bottom:0;left:0;right:0;min-height:var(--bnav-h);height:calc(var(--bnav-h) + env(safe-area-inset-bottom,0px));background:var(--sur);border-top:1px solid var(--bdr);z-index:100;display:flex;box-shadow:0 -2px 10px rgba(0,0,0,.07);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:var(--tx3);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;padding:6px 2px;user-select:none}
+.bn-item i{font-size:20px;transition:transform .15s}
+.bn-item.on{color:var(--A)}
+.bn-item.on i{transform:scale(1.1)}
+
+/* CARDS */
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:14px;overflow:hidden}
+.card-head{padding:14px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.card-title{font-size:14px;font-weight:600;color:var(--tx);display:flex;align-items:center;gap:8px}
+.card-body{padding:16px}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;position:relative;overflow:hidden;box-shadow:var(--sh)}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kc,var(--A))}
+.kpi-ico{width:36px;height:36px;border-radius:10px;background:var(--kib,var(--Al));display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--kc,var(--A));margin-bottom:10px}
+.kpi-val{font-size:24px;font-weight:800;line-height:1;margin-bottom:3px}
+.kpi-lbl{font-size:11px;font-weight:600;color:var(--tx2)}
+
+/* HOME TILES */
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.home-tile{background:var(--sur);border-radius:var(--r);padding:18px 14px 14px;cursor:pointer;box-shadow:var(--sh);border:1px solid var(--bdr);position:relative;overflow:hidden;display:flex;flex-direction:column;gap:10px;min-height:110px;user-select:none;transition:transform .1s}
+.home-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--tc,var(--A))}
+.home-tile:active{transform:scale(.97)}
+.ht-ico{width:44px;height:44px;border-radius:12px;background:var(--tib,var(--Al));display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--tc,var(--A))}
+.ht-name{font-size:13px;font-weight:700;color:var(--tx);line-height:1.3}
+.ht-sub{font-size:11px;color:var(--tx3);margin-top:-6px;line-height:1.4}
+.sec-hdr{font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:.09em;margin:16px 0 10px;padding-left:2px}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:540px}
+th{background:var(--sur2);color:var(--tx3);font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:9px 12px;text-align:left;border-bottom:2px solid var(--bdr);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--bdr);color:var(--tx);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+.td-r{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.bg{background:var(--Gl);color:var(--G)}.br{background:var(--Rl);color:var(--R)}.bb{background:var(--Al);color:var(--A)}.bo{background:var(--Ol);color:var(--O)}.bv{background:var(--Vl);color:var(--V)}.bt{background:var(--Tl);color:var(--T)}.bx{background:var(--sur2);color:var(--tx3)}
+
+/* FORMS */
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.fg label{font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.05em}
+.fg input,.fg select,.fg textarea{padding:13px 14px;border:1.5px solid var(--bdr);border-radius:var(--rS);font-size:14px;outline:none;background:var(--sur2);color:var(--tx);font-family:inherit;width:100%;-webkit-appearance:none;transition:border .2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--A);background:#fff;box-shadow:0 0 0 3px var(--Al)}
+.fg textarea{resize:none;min-height:72px}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 18px;border-radius:var(--rS);border:none;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;-webkit-appearance:none;font-family:inherit}
+.btn:active{opacity:.8}
+.btnP{background:var(--P);color:#fff}.btnA{background:var(--A);color:#fff}.btnG{background:var(--G);color:#fff}.btnR{background:var(--R);color:#fff}
+.btnO{background:var(--sur);color:var(--tx2);border:1.5px solid var(--bdr)}
+.btn-sm{padding:8px 14px;font-size:12px}.btn-full{width:100%;justify-content:center}
+
+/* TABS */
+.tabs{display:flex;border-bottom:2px solid var(--bdr);margin-bottom:16px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:11px 16px;font-size:13px;font-weight:500;color:var(--tx2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0;transition:color .2s}
+.tab.on{color:var(--A);border-bottom-color:var(--A);font-weight:700}
+.tabpane{display:none}.tabpane.on{display:block}
+
+/* ALERT */
+.alert-strip{border-radius:var(--rS);padding:11px 14px;font-size:13px;display:flex;align-items:center;gap:10px;margin-bottom:14px;font-weight:500;border-left:4px solid}
+.alert-strip.warn{background:var(--Ol);color:var(--O);border-color:var(--O)}
+.alert-strip.danger{background:var(--Rl);color:var(--R);border-color:var(--R)}
+.alert-strip.ok{background:var(--Gl);color:var(--G);border-color:var(--G)}
+.alert-strip.info{background:var(--Al);color:var(--A);border-color:var(--A)}
+
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px 40px;color:var(--tx3)}
+.empty i{font-size:44px;margin-bottom:14px;display:block;opacity:.5}
+.empty p{margin:0;font-size:14px}
+
+/* STOCK BAR */
+.sbar{height:4px;border-radius:2px;background:var(--bdr);overflow:hidden;margin-top:5px}
+.sbar-fill{height:100%;border-radius:2px;transition:width .4s}
+
+/* SKELETON */
+.sk{background:linear-gradient(90deg,var(--sur2) 25%,var(--bdr) 50%,var(--sur2) 75%);background-size:200%;animation:shim 1.4s infinite;border-radius:6px}
+.skh{height:13px;margin-bottom:8px}
+@keyframes shim{to{background-position:-200% 0}}
+
+/* MODAL — bottom sheet */
+#mOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;backdrop-filter:blur(2px)}
+#mOv.on{display:block}
+#modal{display:none;position:fixed;bottom:0;left:0;right:0;z-index:501;background:var(--sur);border-radius:20px 20px 0 0;max-height:88vh;flex-direction:column;box-shadow:0 -4px 30px rgba(0,0,0,.2);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding-bottom:env(safe-area-inset-bottom,0px)}
+#modal.on{transform:translateY(0)}
+.modal-handle{width:40px;height:4px;border-radius:2px;background:var(--bdr2,#CBD5E1);margin:12px auto 0}
+#mhead{padding:16px 20px 14px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+#mtit{font-size:16px;font-weight:700;color:var(--tx)}
+.m-close{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--tx3);background:var(--sur2);border:none;font-size:14px}
+#mbody{padding:16px 20px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+#mfoot{padding:14px 20px;border-top:1px solid var(--bdr);display:none;gap:8px;flex-shrink:0}
+
+/* TOAST */
+#toast{position:fixed;bottom:calc(var(--bnav-h) + env(safe-area-inset-bottom,0px) + 12px);left:50%;transform:translateX(-50%) translateY(16px);background:#1E293B;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;max-width:calc(100vw - 32px);text-align:center;box-shadow:var(--shM)}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* SIGN OUT */
+#soOv{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;align-items:flex-end}
+#soOv.on{display:flex}
+.so-sheet{background:var(--sur);border-radius:20px 20px 0 0;padding:24px;width:100%;text-align:center;padding-bottom:calc(env(safe-area-inset-bottom,0px)+20px)}
+.so-sheet h3{margin:0 0 8px;font-size:17px;color:var(--tx)}
+.so-sheet p{color:var(--tx2);margin:0 0 20px;font-size:13px}
+.so-btns{display:flex;flex-direction:column;gap:10px}
+
+/* DESKTOP */
+@media(min-width:1024px){
+  :root{--topbar-h:58px;--bnav-h:0px}
+  #bnav{display:none}
+  #sb{position:fixed;transform:translateX(0)!important;transition:none}
+  #sbOv{display:none!important}
+  .tb-menu-btn{display:none!important}
+  #content{left:var(--sbw);padding:24px;bottom:0}
+  #topbar{left:var(--sbw)}
+  .kpi-row{grid-template-columns:repeat(4,1fr);gap:14px}
+  .home-grid{grid-template-columns:repeat(3,1fr);gap:16px}
+  .form-row{grid-template-columns:1fr 1fr}
+  #modal{position:fixed;top:50%;bottom:auto;left:50%;right:auto;border-radius:16px;width:calc(100% - 40px);max-width:520px;transform:translate(-50%,-60%);max-height:85vh}
+  #modal.on{transform:translate(-50%,-50%)}
+  .modal-handle{display:none}
+  #toast{bottom:24px}
+  #soOv{align-items:center}
+  .so-sheet{border-radius:16px;max-width:360px;padding:32px}
+}
+@media(min-width:768px) and (max-width:1023px){
+  .kpi-row{grid-template-columns:repeat(4,1fr)}
+  .home-grid{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
 <body>
 
-<div id="splash">
-  <div class="s-logo-wrap">
-    <img src="icon-192.png" alt="Palleo">
+<!-- LOGIN -->
+<div id="sLogin">
+  <div class="login-hero">
+    <div class="login-app-icon"><img src="icon-192.png" alt="Palleo"></div>
+    <div class="login-app-name">Palleo SuiteX</div>
+    <div class="login-app-sub">Tread Anywhere · Factory ERP</div>
   </div>
-  <div class="s-title">Palleo SuiteX</div>
-  <div class="s-sub">Tread Anywhere &nbsp;·&nbsp; Factory ERP</div>
-  <div class="s-loader"><span></span></div>
-  <div class="s-msg" id="msg">Opening app...</div>
-  <button id="openBtn" onclick="_open()">Open Palleo SuiteX</button>
-  <div class="s-ver">v2.0 · Palleo International</div>
+  <div class="login-form-wrap">
+    <div class="login-form-title">Sign in</div>
+    <div class="login-form-sub">Enter your credentials to continue</div>
+    <div class="fld">
+      <label>Email</label>
+      <input type="email" id="femail" placeholder="you@palleo.in" autocomplete="email" inputmode="email">
+    </div>
+    <div class="fld">
+      <label>Password</label>
+      <input type="password" id="fpass" placeholder="Enter password" autocomplete="current-password">
+    </div>
+    <button class="btn-login" id="btnLogin" onclick="_doLogin()">Sign In</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
 </div>
 
-<script>
-var GAS = 'https://script.google.com/macros/s/AKfycbykkZNBJQEydkr67fdxHtIbyaqsR7Qm_jZkaDAqcXaPqsOMZjUZ0a2lynIAQ9eurMoIIg/exec';
+<!-- APP SHELL -->
+<div id="sApp">
+  <header id="topbar">
+    <div class="tb-menu-btn" onclick="_toggleSb()"><i class="fas fa-bars"></i></div>
+    <div class="tb-title-block">
+      <div class="tb-title" id="tbTitle">Dashboard</div>
+      <div class="tb-sub" id="tbSub"></div>
+    </div>
+    <div class="tb-action-btn" onclick="_refresh()"><i class="fas fa-sync-alt" id="refreshIco"></i></div>
+  </header>
 
-// Service worker registration — enables PWA install prompt
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('sw.js', { scope: './' })
-      .then(function(reg) { console.log('[SW] Registered', reg.scope); })
-      .catch(function(e) { console.log('[SW] Failed', e); });
+  <div id="sbOv" onclick="_closeSb()"></div>
+  <aside id="sb">
+    <div class="sb-head">
+      <div class="sb-app-row">
+        <div class="sb-app-icon"><img src="icon-192.png" alt="P"></div>
+        <div><div class="sb-app-name">Palleo SuiteX</div><div class="sb-app-ver">Factory ERP v2</div></div>
+      </div>
+      <div class="sb-div"></div>
+      <div class="sb-user-row">
+        <div class="sb-avatar" id="sbAv">?</div>
+        <div><div class="sb-u-name" id="sbName">—</div><div class="sb-u-role" id="sbRole">—</div></div>
+      </div>
+    </div>
+    <nav class="sb-nav" id="sbNav"></nav>
+    <div class="sb-foot">
+      <div class="sb-signout" onclick="_showSignout()"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+    </div>
+  </aside>
+
+  <div id="content">
+    <div class="empty"><i class="fas fa-circle-notch fa-spin"></i><p>Loading...</p></div>
+  </div>
+  <nav id="bnav"></nav>
+</div>
+
+<div id="mOv" onclick="_closeModal()"></div>
+<div id="modal" style="display:none">
+  <div class="modal-handle"></div>
+  <div id="mhead"><div id="mtit"></div><button class="m-close" onclick="_closeModal()"><i class="fas fa-times"></i></button></div>
+  <div id="mbody"></div>
+  <div id="mfoot"></div>
+</div>
+<div id="toast"></div>
+<div id="soOv">
+  <div class="so-sheet">
+    <h3>Sign Out?</h3>
+    <p>You will be returned to the login screen.</p>
+    <div class="so-btns">
+      <button class="btn btnR btn-full" onclick="_signOut()"><i class="fas fa-sign-out-alt"></i> Yes, Sign Out</button>
+      <button class="btn btnO btn-full" onclick="_closeSignout()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js',{scope:'./'})
+      .then(function(r){console.log('[SW] OK',r.scope);})
+      .catch(function(e){console.log('[SW] fail',e);});
   });
 }
-
-function _open() { window.location.href = GAS; }
-
-// Redirect sequence
-setTimeout(function(){
-  document.getElementById('msg').textContent = 'Redirecting...';
-}, 500);
-
-setTimeout(function(){
-  window.location.href = GAS;
-}, 1400);
-
-// Fallback button after 5s (slow connection)
-setTimeout(function(){
-  var loader = document.querySelector('.s-loader');
-  if (loader) loader.style.display = 'none';
-  document.getElementById('msg').textContent = 'App nahi khula? Neeche tap karo';
-  document.getElementById('openBtn').style.display = 'block';
-}, 5000);
 </script>
 </body>
 </html>
