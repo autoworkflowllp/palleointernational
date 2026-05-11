@@ -1,31 +1,26 @@
-// Palleo SuiteX — Service Worker
-var CACHE = 'palleo-v1';
-var SHELL = ['./'];
+// Palleo SuiteX — Service Worker v2
+var CACHE = 'palleo-v2';
+var SHELL = ['./', './manifest.json', './icon-192.png', './icon-512.png'];
 
-self.addEventListener('install', function(e) {
-  e.waitUntil(
-    caches.open(CACHE).then(function(c){ return c.addAll(SHELL); })
-  );
+self.addEventListener('install', function(e){
+  e.waitUntil(caches.open(CACHE).then(function(c){ return c.addAll(SHELL); }));
   self.skipWaiting();
 });
 
-self.addEventListener('activate', function(e) {
-  e.waitUntil(
-    caches.keys().then(function(keys){
-      return Promise.all(keys.filter(function(k){ return k!==CACHE; }).map(function(k){ return caches.delete(k); }));
-    })
-  );
+self.addEventListener('activate', function(e){
+  e.waitUntil(caches.keys().then(function(keys){
+    return Promise.all(keys.filter(function(k){return k!==CACHE;}).map(function(k){return caches.delete(k);}));
+  }));
   self.clients.claim();
 });
 
-self.addEventListener('fetch', function(e) {
-  // Only cache same-origin shell — let GAS requests pass through
-  if (e.request.url.indexOf('script.google.com') >= 0) return;
+self.addEventListener('fetch', function(e){
+  // Let GAS and external requests pass through — only cache our shell
+  var url = e.request.url;
+  if(url.indexOf('script.google.com')>=0 || url.indexOf('google.com')>=0) return;
   e.respondWith(
     caches.match(e.request).then(function(cached){
-      return cached || fetch(e.request).catch(function(){
-        return caches.match('./');
-      });
+      return cached || fetch(e.request).catch(function(){ return caches.match('./'); });
     })
   );
 });
