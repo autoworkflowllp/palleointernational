@@ -3,7 +3,7 @@
    Fetch-based API calls (no google.script.run)
 ══════════════════════════════════════════════════════ */
 
-var API = 'https://script.google.com/macros/s/AKfycbykkZNBJQEydkr67fdxHtIbyaqsR7Qm_jZkaDAqcXaPqsOMZjUZ0a2lynIAQ9eurMoIIg/exec';
+var API = 'https://script.google.com/macros/s/AKfycbwhASIz4j5DkCJtOzh0ZAlp7_shMO8BBNJCjmF9o8ne5bEeaSDnYUHzcESH_8CM8ACeEA/exec';
 var _U=null,_V=null,_ST=null,_D={},_sub={},_tt,_TOKEN=null;
 
 /* ── API helper ── */
