@@ -3,7 +3,7 @@
    JSONP-based API (bypasses CORS on GAS)
 ══════════════════════════════════════════════════════ */
 
-var API = 'https://script.google.com/macros/s/AKfycbwTe0chJSY72J9C4zr2ficwAam-M0PosXkIr32FIuInZ1cau3EhHSc9BBEF9w1T5g9IRg/exec';
+var API = 'https://script.google.com/macros/s/AKfycbz45xHvv9ZgbgDrRMRbiBQ3xG0WZj4BgKXCpIcSBlHXB6ZXmT7IvpbcraclNZZQsHbgZA/exec';
 var _U=null,_V=null,_ST=null,_D={},_sub={},_tt,_TOKEN=null;
 var _cbIdx = 0;
 
